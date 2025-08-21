@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,118 +6,98 @@ using UnityEngine.UI;
 
 public class MultipleChoiceQuestion: MonoBehaviour
 {
-    [SerializeField] int maxAnswers;
-    [SerializeField] Sprite circleBubble, squareBubble, circleFilled, squareFilled;
-    [SerializeField] MultipleChoiceElement templateChoice;
-    [SerializeField] string[] choices;
-    MultipleChoiceElement[] toggles;
+    [SerializeField] MultipleChoiceElement optionTemplate;
 
-    // Start is called before the first frame update
+    // User edited
+    [SerializeField][Tooltip("Maximum number of answers the user may select")] int maxAnswers;
+    [SerializeField][Tooltip("Bubble/Fill sprites for questions with maxAnswers of 1")] Sprite singleAnswerBubble, singleAnswerFill;
+    [SerializeField][Tooltip("Bubble/Fill sprites for questions with maxAnswers greater than 1")] Sprite multiAnswerBubble, multiAnswerFill;
+    [SerializeField][Tooltip("The text for each selectable answer option")] string[] optionsText;
+
+
+    MultipleChoiceElement[] answerOptions;
+    List<MultipleChoiceElement> selectedOptions = new List<MultipleChoiceElement>();
+
+
     private void Start()
-    {
-        Initialize();
-    }
-    private void Initialize()
-    {
-        toggles = new MultipleChoiceElement[choices.Length];
+    { 
+        // Create and populate the answer options array
+        answerOptions = new MultipleChoiceElement[optionsText.Length];
 
-        for(int i = 0; i < choices.Length; i++)
+        for (int i = 0; i < optionsText.Length; i++)
         {
-            GameObject newChoiceGO = Instantiate(templateChoice.gameObject, transform);
-            MultipleChoiceElement newChoice = newChoiceGO.GetComponent<MultipleChoiceElement>();
-            newChoice.SetText(choices[i]);
-            toggles[i] = newChoice;
+            GameObject newOptionGO = Instantiate(optionTemplate.gameObject, transform);
+            MultipleChoiceElement newOption = newOptionGO.GetComponent<MultipleChoiceElement>();
+            newOption.SetQuestion(this);
+            newOption.SetText(optionsText[i]);
+            answerOptions[i] = newOption;
 
-            newChoiceGO.SetActive(true);
+            newOptionGO.SetActive(true);
         }
 
-        if (maxAnswers == 1)
+        // Set the bubble/fill sprites based on whether it is a single- or multi-answer question
+        maxAnswers = Mathf.Clamp(maxAnswers, 1, answerOptions.Length);
+
+        Sprite bubbleToUse = maxAnswers > 1 ? multiAnswerBubble : singleAnswerBubble;
+        Sprite fillToUse = maxAnswers > 1 ? multiAnswerFill : singleAnswerFill;
+
+        foreach (MultipleChoiceElement currentOption in answerOptions)
         {
-            foreach (MultipleChoiceElement toggle in toggles)
-            {
-                toggle.SetButtonSprite(circleBubble);
-                toggle.SetIndicatorSprite(circleFilled);
-                toggle.SetSingleChoice(true);
-            }
-        }
-        else if (maxAnswers > 1)
-        {
-            foreach (MultipleChoiceElement toggle in toggles)
-            {
-                toggle.SetButtonSprite(squareBubble);
-                toggle.SetIndicatorSprite(squareFilled);
-                toggle.SetSingleChoice(false);
-            }
+            currentOption.SetButtonSprite(bubbleToUse);
+            currentOption.SetIndicatorSprite(fillToUse);
         }
     }
 
-    public void SetChoices(string[] newChoices)
+    public void SetChoicesText(string[] textsIn)
     {
-        choices = newChoices;
+        optionsText = textsIn;
     }
-    public void OptionToggled()
-    {
-        int numActive = 0;
 
-        foreach (MultipleChoiceElement toggle in toggles)
-        {
-            if (toggle.GetCurrentState())
-                numActive++;
-        }
+
+    public void OptionToggled(MultipleChoiceElement toggledOption)
+    {
+        // Determine whether user is adding or removing a selection
+        if (toggledOption.GetSelectedState())
+            selectedOptions.Add(toggledOption);
+        else
+            selectedOptions.Remove(toggledOption);
+
 
         if (maxAnswers > 1)
         {
-            if (numActive >= maxAnswers)
+            int numSelected = 0;
+
+            foreach (MultipleChoiceElement currentOption in answerOptions)
             {
-                foreach (MultipleChoiceElement toggle in toggles)
-                {
-                    toggle.SetAbleToAdd(false);
-                }
-            }
-            else
-            {
-                foreach (MultipleChoiceElement toggle in toggles)
-                {
-                    toggle.SetAbleToAdd(true);
-                }
+                if (currentOption.GetSelectedState())
+                    numSelected++;
+
+                currentOption.SetSelectable(numSelected < maxAnswers);
             }
         }
-    }
-    public void ClearAllButOne(MultipleChoiceElement exception)
-    {
-        foreach(MultipleChoiceElement toggle in toggles)
+        else
         {
-            if(toggle != exception) 
+            foreach (MultipleChoiceElement currentOption in answerOptions)
             {
-                toggle.SetCurrentState(false);
+                // The toggled option does not have to be selected--users should be able to unselect even in a single-choice
+                if (currentOption != toggledOption)
+                {
+                    currentOption.SetSelectedState(false);
+
+                    if (selectedOptions.Contains(currentOption))
+                        selectedOptions.Remove(currentOption);
+                }
+                
             }
         }
     }
 
-    public MultipleChoiceElement[] GetAnswerValues()
+    public MultipleChoiceElement[] GetAnswerOptions()
     {
-        return toggles;
+        return answerOptions;
     }
     public MultipleChoiceElement[] GetSelectedOptions()
     {
-        int numSelected = 0;
-        foreach(MultipleChoiceElement toggle in toggles)
-        {
-            if(toggle.GetCurrentState())
-                numSelected++;
-        }
-        MultipleChoiceElement[] returnValue = new MultipleChoiceElement[numSelected];
-
-        int index = 0;
-        foreach(MultipleChoiceElement toggle in toggles)
-        {
-            if (toggle.GetCurrentState())
-            {
-                returnValue[index] = toggle;
-                index++;
-            }
-        }
-
-        return returnValue;
+        return selectedOptions.ToArray();
     }
 }

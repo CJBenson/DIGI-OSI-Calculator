@@ -740,7 +740,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10a50fc33a816eb43b54ab3209f7f932, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textAssetData: {fileID: 4900000, guid: d234d1933a42cf843a41ddb12a7df0c5, type: 3}
+  textAssetData: {fileID: 4900000, guid: 07085a44dc077d4499cf575e8b8bca08, type: 3}
   categoryAssigner: {fileID: 1624272706304763973}
   keywordAssigner: {fileID: 1055525676}
   elementCount: 6
@@ -850,7 +850,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 960, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1520, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &255829615
@@ -2175,7 +2175,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 750, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &589767250
 MonoBehaviour:
@@ -2327,7 +2327,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 750, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &592877427
 MonoBehaviour:
@@ -2937,7 +2937,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 750, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &748699323
 MonoBehaviour:
@@ -4846,7 +4846,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 750, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1328847565
 MonoBehaviour:
@@ -6316,7 +6316,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 960, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1520, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1775651383
@@ -6354,7 +6354,7 @@ MonoBehaviour:
   m_StartCorner: 0
   m_StartAxis: 0
   m_CellSize: {x: 750, y: 500}
-  m_Spacing: {x: 20, y: 75}
+  m_Spacing: {x: 20, y: 150}
   m_Constraint: 1
   m_ConstraintCount: 2
 --- !u!1001 &1795143642
@@ -6547,7 +6547,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 750, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1830890523
 MonoBehaviour:
@@ -7283,6 +7283,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1245620014}
     m_Modifications:
+    - target: {fileID: 1257520024496645447, guid: e472f127ffdd3994b9e9e13af515c083, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1257520024496645447, guid: e472f127ffdd3994b9e9e13af515c083, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ToggleSelectedState
+      objectReference: {fileID: 0}
     - target: {fileID: 1495854553717934066, guid: e472f127ffdd3994b9e9e13af515c083, type: 3}
       propertyPath: m_fontSize
       value: 20
@@ -7357,7 +7365,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2833332855096222403, guid: e472f127ffdd3994b9e9e13af515c083, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 360
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2833332855096222403, guid: e472f127ffdd3994b9e9e13af515c083, type: 3}
       propertyPath: m_SizeDelta.y
@@ -7488,7 +7496,7 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 360, y: 50}
+  m_CellSize: {x: 375, y: 50}
   m_Spacing: {x: 0, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2

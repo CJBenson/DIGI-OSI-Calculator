@@ -32,9 +32,9 @@ public class CompileAvailableData : MonoBehaviour
     public void ReadDataToArrays()
     {
         //Read the Yes/No answers
-        MultipleChoiceElement[] cultureYN = cultureYesNo.GetAnswerValues();
-        MultipleChoiceElement[] genderYN = genderYesNo.GetAnswerValues();
-        MultipleChoiceElement[] religionYN = religionYesNo.GetAnswerValues();
+        MultipleChoiceElement[] cultureYN = cultureYesNo.GetAnswerOptions();
+        MultipleChoiceElement[] genderYN = genderYesNo.GetAnswerOptions();
+        MultipleChoiceElement[] religionYN = religionYesNo.GetAnswerOptions();
 
         //Read the multiple choice for the elements
         MultipleChoiceElement[] genders;
@@ -43,18 +43,18 @@ public class CompileAvailableData : MonoBehaviour
 
         MultipleChoiceElement[] categories = categoryQuestion.GetSelectedOptions();
 
-        if (genderYN[0].GetCurrentState())
+        if (genderYN[0].GetSelectedState())
             genders = genderQuestion.GetSelectedOptions();
         else
             genders = new MultipleChoiceElement[0];
 
-        if (religionYN[0].GetCurrentState())
+        if (religionYN[0].GetSelectedState())
             religions = religionQuestion.GetSelectedOptions();
         else
             religions = new MultipleChoiceElement[0];
 
         //Read the search for the elements
-        if (cultureYN[0].GetCurrentState())
+        if (cultureYN[0].GetSelectedState())
             cultures = cultureSearch.GetSelections();
         else
             cultures = new SearchMenuSelectedItem[0];
@@ -109,7 +109,7 @@ public class CompileAvailableData : MonoBehaviour
 
     public CSVReader.CampusGroup[] ReturnGroups()
     {
-        Debug.Log("Starting Return");
+        //Debug.Log("Starting Return");
         CSVReader.GroupArray groupArray = reader.GetGroupArray();
 
         List<CSVReader.CampusGroup> groupResults = new List<CSVReader.CampusGroup>();
@@ -136,14 +136,14 @@ public class CompileAvailableData : MonoBehaviour
                         groupResults.Add(campusGroup);
                         criteria.Add(1);
 
-                        Debug.Log(campusGroup.name + " contained a category match!");
+                        //Debug.Log(campusGroup.name + " contained a category match!");
                     }
                     else if (campusGroup.category.Contains(indivCategory, System.StringComparison.CurrentCultureIgnoreCase) && 
                              groupResults.Contains(campusGroup))
                     {
                         criteria[groupResults.IndexOf(campusGroup)]++;
 
-                        Debug.Log(campusGroup.name + " contained a category match!");
+                        //Debug.Log(campusGroup.name + " contained a category match!");
                     }
                 }
                 foreach (string indivCulture in chosenCultures)
@@ -154,18 +154,18 @@ public class CompileAvailableData : MonoBehaviour
                         groupResults.Add(campusGroup);
                         criteria.Add(2);
 
-                        Debug.Log(campusGroup.name + " contains " + indivCulture + ": " + campusGroup.keywords);
+                        //Debug.Log(campusGroup.name + " contains " + indivCulture + ": " + campusGroup.keywords);
                     }
                     else if (campusGroup.category.Contains("Cultural") &&
                              campusGroup.keywords.Contains(indivCulture, System.StringComparison.CurrentCultureIgnoreCase) && 
                              groupResults.Contains(campusGroup))
                     {
                         criteria[groupResults.IndexOf(campusGroup)] += 2;
-                        Debug.Log(campusGroup.name + " contains " + indivCulture + ": " + campusGroup.keywords);
+                        //Debug.Log(campusGroup.name + " contains " + indivCulture + ": " + campusGroup.keywords);
                     }
                     else
                     {
-                        Debug.Log(campusGroup.name + " does not contain " + indivCulture + ": " + campusGroup.keywords);
+                        //Debug.Log(campusGroup.name + " does not contain " + indivCulture + ": " + campusGroup.keywords);
                     }
                 }
                 foreach (string indivGender in chosenGenders)
@@ -176,14 +176,14 @@ public class CompileAvailableData : MonoBehaviour
                         groupResults.Add(campusGroup);
                         criteria.Add(2);
 
-                        Debug.Log(campusGroup.name + " contained a gender match!");
+                        //Debug.Log(campusGroup.name + " contained a gender match!");
                     }
                     else if (campusGroup.keywords.Contains(indivGender, System.StringComparison.CurrentCultureIgnoreCase) && 
                              groupResults.Contains(campusGroup))
                     {
                         criteria[groupResults.IndexOf(campusGroup)] += 2;
 
-                        Debug.Log(campusGroup.name + " contained a gender match!");
+                        //Debug.Log(campusGroup.name + " contained a gender match!");
                     }
                 }
                 foreach (string indivReligion in chosenReligions)
@@ -195,7 +195,7 @@ public class CompileAvailableData : MonoBehaviour
                         groupResults.Add(campusGroup);
                         criteria.Add(2);
 
-                        Debug.Log(campusGroup.name + " contained a religion match!");
+                        //Debug.Log(campusGroup.name + " contained a religion match!");
                     }
                     else if (campusGroup.category.Contains("Religious and Spiritual") &&
                              campusGroup.keywords.Contains(indivReligion, System.StringComparison.CurrentCultureIgnoreCase) && 
@@ -203,7 +203,7 @@ public class CompileAvailableData : MonoBehaviour
                     {
                         criteria[groupResults.IndexOf(campusGroup)] += 2;
 
-                        Debug.Log(campusGroup.name + " contained a religion match!");
+                        //Debug.Log(campusGroup.name + " contained a religion match!");
                     }
                 }
                 foreach (string indivKeyword in chosenKeywords)
@@ -235,7 +235,7 @@ public class CompileAvailableData : MonoBehaviour
                         criteria.RemoveAt(groupResults.IndexOf(campusGroup));
                         groupResults.Remove(campusGroup);
 
-                        Debug.Log(campusGroup.name + "removed for cultural reason");
+                        //Debug.Log(campusGroup.name + "removed for cultural reason");
                     }
                 }
                 if (chosenGenders.Length <= 0)
@@ -251,7 +251,7 @@ public class CompileAvailableData : MonoBehaviour
                         criteria.RemoveAt(groupResults.IndexOf(campusGroup));
                         groupResults.Remove(campusGroup);
 
-                        Debug.Log(campusGroup.name + "removed for gender reason");
+                        //Debug.Log(campusGroup.name + "removed for gender reason");
                     }
                 }
                 if (chosenReligions.Length <= 0)
@@ -262,7 +262,7 @@ public class CompileAvailableData : MonoBehaviour
                         criteria.RemoveAt(groupResults.IndexOf(campusGroup));
                         groupResults.Remove(campusGroup);
 
-                        Debug.Log(campusGroup.name + "removed for religious reason");
+                        //Debug.Log(campusGroup.name + "removed for religious reason");
                     }
                 }
             }
@@ -337,8 +337,8 @@ public class CompileAvailableData : MonoBehaviour
                         indexOfMax = ind;
                     }
                 }
-                Debug.Log("final result " + i + ": " + groupResults[indexOfMax].name);
-                Debug.Log("group had a criteria count of: " + criteria[indexOfMax]);
+                //Debug.Log("final result " + i + ": " + groupResults[indexOfMax].name);
+                //Debug.Log("group had a criteria count of: " + criteria[indexOfMax]);
 
                 //Set the next item in the array to that group
                 finalResults[i] = groupResults[indexOfMax];

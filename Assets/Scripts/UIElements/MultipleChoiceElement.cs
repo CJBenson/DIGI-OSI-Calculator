@@ -6,64 +6,62 @@ using TMPro;
 
 public class MultipleChoiceElement : MonoBehaviour
 {
-    [SerializeField] bool startingState = false;
-    [SerializeField] Image selectionButton;
+    [SerializeField] bool startsSelected = false;
+
+    [SerializeField] Image selectionBubble;
     [SerializeField] Image selectedIndicator;
-    [SerializeField] TMP_Text choiceText;
-    [SerializeField] MultipleChoiceQuestion question;
-    bool singleChoice;
-    bool currentState;
-    bool ableToAdd = true;
+    [SerializeField] TMP_Text optionText;
+
+    MultipleChoiceQuestion question;
+
+    bool currentlySelected;
+    bool selectable = true;
 
     private void Start()
     {
-        currentState = startingState;
+        currentlySelected = startsSelected;
     }
 
-    //Setting the parameters of the element
-    public void SetSingleChoice(bool singleChoiceAssignment)
+    public void SetQuestion(MultipleChoiceQuestion questionIn)
     {
-        singleChoice = singleChoiceAssignment;
+        question = questionIn;
     }
-    public void SetAbleToAdd(bool ableToAddAssignment)
+    public void SetSelectable(bool selectableIn)
     {
-        ableToAdd = ableToAddAssignment;
+        selectable = selectableIn;
     }
-    public void SetButtonSprite(Sprite spriteAssignment)
+    public void SetButtonSprite(Sprite spriteIn)
     {
-        selectionButton.sprite = spriteAssignment;
+        selectionBubble.sprite = spriteIn;
     }
-    public void SetIndicatorSprite(Sprite spriteAssignment)
+    public void SetIndicatorSprite(Sprite spriteIn)
     {
-        selectedIndicator.sprite = spriteAssignment;
+        selectedIndicator.sprite = spriteIn;
     }
-    public void SetText(string text)
-    {
-        choiceText.text = text;
-    }
+
     public string GetText()
     {
-        return choiceText.text;
+        return optionText.text;
+    }
+    public void SetText(string textIn)
+    {
+        optionText.text = textIn;
     }
 
-    //Setting/Getting the state of the answer
-    public bool GetCurrentState()
+    public bool GetSelectedState()
     {
-        return currentState;
+        return currentlySelected;
     }
-    public void SetCurrentState(bool state)
+    public void SetSelectedState(bool stateIn)
     {
-        currentState = state;
-        selectedIndicator.enabled = currentState;
+        currentlySelected = stateIn;
+        selectedIndicator.enabled = currentlySelected;
     }
-    public void Toggle()
+    public void ToggleSelectedState()
     {
-        if (ableToAdd || currentState)
-        {
-            currentState = !currentState;
-            selectedIndicator.enabled = currentState;
-        }
-        if (singleChoice)
-            question.ClearAllButOne(this);
+        if (selectable || currentlySelected)
+            SetSelectedState(!currentlySelected);
+
+        question.OptionToggled(this);
     }
 }

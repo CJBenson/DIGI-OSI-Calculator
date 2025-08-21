@@ -9,9 +9,9 @@ public class YesNoOption : MonoBehaviour
     public void CheckAnswer()
     {
         MultipleChoiceQuestion questionData = gameObject.GetComponent<MultipleChoiceQuestion>();
-        MultipleChoiceElement enableElement = questionData.GetAnswerValues()[0];
+        MultipleChoiceElement enableElement = questionData.GetAnswerOptions()[0];
 
-        if (enableElement.GetCurrentState())
+        if (enableElement.GetSelectedState())
             optionalQuestion.SetActive(true);
         else 
             optionalQuestion.SetActive(false);

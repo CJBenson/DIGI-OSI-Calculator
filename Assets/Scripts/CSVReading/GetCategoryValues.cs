@@ -29,6 +29,6 @@ public class GetCategoryValues : MonoBehaviour
         allCategories.Sort();
         string[] categoriesArray = allCategories.ToArray();
 
-        menu.SetChoices(categoriesArray);
+        menu.SetChoicesText(categoriesArray);
     }
 }
